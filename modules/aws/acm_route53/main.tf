@@ -1,6 +1,4 @@
-################################
 # ACM SSL/TLS 인증서 생성
-################################
 resource "aws_acm_certificate" "create_cert" {
   for_each = {
     for key, value in var.acm_certificate : key => value
@@ -20,9 +18,7 @@ resource "aws_acm_certificate" "create_cert" {
   })
 }
 
-################################
-# ACM SSL/TLS 인증서 가져오기
-################################
+# ACM SSL/TLS 인증서 조회
 resource "aws_acm_certificate" "import_cert" {
   for_each = {
     for key, value in var.acm_certificate : key => value
@@ -35,9 +31,7 @@ resource "aws_acm_certificate" "import_cert" {
   certificate_chain = each.value.certificate_chain
 }
 
-################################
 # Route53 Zone 생성
-################################
 resource "aws_route53_zone" "create_route53_zone" {
   for_each = {
     for key, value in var.route53_zone_settings : key => value
@@ -46,21 +40,7 @@ resource "aws_route53_zone" "create_route53_zone" {
   name = each.value.name
 }
 
-################################
-# Route53 Zone 가져오기
-################################
-data "aws_route53_zone" "import_route53_zone" {
-  for_each = {
-    for key, value in var.route53_zone_settings : key => value
-    if value.mode == "import"
-  }
-  name         = each.value.name
-  private_zone = false
-}
-
-################################
 # Route53 레코드 생성
-################################
 resource "aws_route53_record" "acm_validation_record" {
   for_each = local.acm_validation_records
 
