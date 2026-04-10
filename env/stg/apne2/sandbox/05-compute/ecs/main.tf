@@ -1,4 +1,4 @@
-# env/stg/devops/ap-northeast-2/main.tf
+# env/stg/apne2/sandbox/05-compute/ecs/main.tf
 
 module "ecs" {
   source = "../../../../../../modules/aws/compute/ecs"
