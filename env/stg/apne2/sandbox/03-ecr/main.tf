@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/ecr/main.tf
+# env/stg/apne2/sandbox/03-ecr/main.tf
 
 module "ecr" {
   source = "../../../../../modules/aws/ecr"

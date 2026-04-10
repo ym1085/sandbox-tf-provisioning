@@ -1,7 +1,7 @@
-# env/stg/devops/ap-northeast-2/main.tf
+# env/stg/apne2/sandbox/04-elb/main.tf
 
 module "elb" {
-  source = "../../../../modules/aws/elb"
+  source = "../../../../../modules/aws/elb"
 
   alb                = var.alb
   alb_listener       = var.alb_listener
@@ -10,8 +10,8 @@ module "elb" {
   alb_security_group = var.alb_security_group
   alb_sg_rules       = var.alb_sg_rules
 
-  vpc_id            = data.terraform_remote_state.network.vpc_id
-  public_subnet_ids = data.terraform_remote_state.network.public_subnet_ids
+  vpc_id            = data.terraform_remote_state.network.outputs.vpc_id
+  public_subnet_ids = data.terraform_remote_state.network.outputs.public_subnet_ids
 
   project_name       = var.project_name
   env                = var.env

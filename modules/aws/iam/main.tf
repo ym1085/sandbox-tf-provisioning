@@ -1,8 +1,3 @@
-data "aws_iam_policy" "managed_policy" {
-  for_each = var.iam_managed_policy
-  arn      = each.value.arn
-}
-
 # IAM 역할(Role)
 resource "aws_iam_role" "custom_role" {
   for_each = var.iam_custom_role
