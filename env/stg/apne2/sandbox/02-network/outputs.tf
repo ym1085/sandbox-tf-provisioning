@@ -1,5 +1,6 @@
 # env/stg/apne2/sandbox/network/outputs.tf
 
+# vpc
 output "vpc_id" {
   description = "생성된 VPC ID"
   value       = module.network.vpc_id

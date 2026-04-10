@@ -6,6 +6,16 @@ variable "project_name" {
   type        = string
 }
 
+variable "aws_region" {
+  description = "AWS 리전 설정"
+  type        = string
+  default     = "ap-northeast-2"
+  validation {
+    condition     = contains(["ap-northeast-2"], var.aws_region)
+    error_message = "지원되지 않는 AWS 리전입니다."
+  }
+}
+
 variable "env" {
   description = "AWS 개발 환경 설정"
   type        = string
@@ -50,4 +60,5 @@ variable "enable_dns_hostnames" {
 variable "tags" {
   description = "공통 태그 설정"
   type        = map(string)
+  default     = {}
 }

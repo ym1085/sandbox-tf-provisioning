@@ -1,5 +1,3 @@
-# env/stg/apne2/sandbox/network/provider.tf
-
 provider "aws" {
   region = "ap-northeast-2"
 }
@@ -9,7 +7,7 @@ terraform {
 
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
+      source  = "hashicorp/aws",
       version = ">= 4.0.0"
     }
   }
