@@ -1,5 +1,6 @@
 # env/stg/apne2/sandbox/network/main.tf
 
+# network module
 module "network" {
   source = "../../../../../modules/aws/network"
 
@@ -12,5 +13,6 @@ module "network" {
 
   project_name = var.project_name
   env          = var.env
-  tags         = var.tags
+
+  tags = var.tags
 }
