@@ -13,6 +13,17 @@ module "iam" {
   tags = var.tags
 }
 
+# s3 module
+module "s3" {
+  source = "../../../../../modules/aws/s3"
+
+  s3_bucket = var.s3_bucket
+
+  project_name = var.project_name
+  env          = var.env
+  tags         = var.tags
+}
+
 # acm module
 module "acm" {
   source = "../../../../../modules/aws/acm_route53"
