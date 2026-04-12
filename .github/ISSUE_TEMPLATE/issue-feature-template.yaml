@@ -1,0 +1,31 @@
+name: "✨ Feature"
+description: "New feature request issue template"
+title: "[Feature]: {기능 제목}"
+labels: ["type: feat"]
+body:
+  - type: textarea
+    attributes:
+      label: 📄 Description
+      description: Please describe the new feature.
+      placeholder: The more detail, the better.
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: ✅ Tasks
+      description: Write tasks using GitHub task list syntax (- [ ]).
+      placeholder: |
+        - [ ] 주문 API 구현
+        - [ ] 주문 API 테스트코드 작성
+    validations:
+      required: true
+
+  - type: input
+    id: related
+    attributes:
+      label: 🚨 관련 이슈(Optional)
+      placeholder: "#14"
+    validations:
+      required: false
