@@ -1,0 +1,47 @@
+<!-- BEGIN_TF_DOCS -->
+
+## Requirements
+
+| Name                                                                     | Version   |
+| ------------------------------------------------------------------------ | --------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.11.4 |
+| <a name="requirement_aws"></a> [aws](#requirement_aws)                   | >= 4.0.0  |
+
+## Providers
+
+| Name                                                               | Version |
+| ------------------------------------------------------------------ | ------- |
+| <a name="provider_terraform"></a> [terraform](#provider_terraform) | n/a     |
+
+## Modules
+
+| Name                                         | Source                         | Version |
+| -------------------------------------------- | ------------------------------ | ------- |
+| <a name="module_elb"></a> [elb](#module_elb) | ../../../../../modules/aws/elb | n/a     |
+
+## Resources
+
+| Name                                                                                                                                | Type        |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [terraform_remote_state.network](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
+
+## Inputs
+
+| Name                                                                                    | Description            | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Default | Required |
+| --------------------------------------------------------------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | :------: |
+| <a name="input_alb"></a> [alb](#input_alb)                                              | ALB 설정               | <pre>map(object({<br/> name = string<br/> internal = bool<br/> load_balancer_type = string<br/> enable_deletion_protection = bool<br/> enable_cross_zone_load_balancing = bool<br/> idle_timeout = number<br/> security_group_name = string<br/> env = string<br/> }))</pre>                                                                                                                                                                                                                                                                             | n/a     |   yes    |
+| <a name="input_alb_listener"></a> [alb_listener](#input_alb_listener)                   | ALB Listener 설정      | <pre>map(object({<br/> name = string<br/> port = number<br/> protocol = string<br/> load_balancer_arn = string<br/> default_action = object({<br/> type = string # ALB Listener Rule 지정 -> forward, redirect,fixed-response<br/> target_group_arn = optional(string) # target group forward 하는 경우 사용<br/> fixed_response = optional(object({ # 고정 값을 응답해야 하는 경우 사용<br/> content_type = optional(string)<br/> message_body = optional(string)<br/> status_code = optional(string)<br/> }))<br/> })<br/> env = string<br/> }))</pre> | n/a     |   yes    |
+| <a name="input_alb_listener_rule"></a> [alb_listener_rule](#input_alb_listener_rule)    | ALB Listener rule 설정 | <pre>map(object({<br/> type = string<br/> path = list(string)<br/> alb_listener_name = string<br/> target_group_name = string<br/> priority = number<br/> }))</pre>                                                                                                                                                                                                                                                                                                                                                                                      | n/a     |   yes    |
+| <a name="input_alb_security_group"></a> [alb_security_group](#input_alb_security_group) | ALB 보안그룹 이름      | <pre>map(object({<br/> security_group_name = string<br/> description = string<br/> env = string<br/> }))</pre>                                                                                                                                                                                                                                                                                                                                                                                                                                           | n/a     |   yes    |
+| <a name="input_alb_sg_rules"></a> [alb_sg_rules](#input_alb_sg_rules)                   | ALB 보안그룹 규칙      | <pre>map(object({<br/> type = string<br/> description = string<br/> security_group_key = string<br/> from_port = number<br/> to_port = number<br/> ip_protocol = string<br/> cidr_ipv4 = optional(list(string))<br/> referenced_security_group_id = optional(list(string))<br/> }))</pre>                                                                                                                                                                                                                                                                | `{}`    |    no    |
+| <a name="input_availability_zones"></a> [availability_zones](#input_availability_zones) | 가용 영역 설정         | `list(string)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | n/a     |   yes    |
+| <a name="input_env"></a> [env](#input_env)                                              | AWS 개발 환경 설정     | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | n/a     |   yes    |
+| <a name="input_project_name"></a> [project_name](#input_project_name)                   | 프로젝트 이름 설정     | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | n/a     |   yes    |
+| <a name="input_tags"></a> [tags](#input_tags)                                           | 공통 태그 설정         | `map(string)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | n/a     |   yes    |
+| <a name="input_target_group"></a> [target_group](#input_target_group)                   | ALB Target Group 설정  | <pre>map(object({<br/> name = string<br/> port = number<br/> elb_type = string<br/> protocol = string<br/> target_type = string<br/> env = string<br/> health_check = object({<br/> path = string<br/> enabled = bool<br/> healthy_threshold = number<br/> interval = number<br/> port = number<br/> protocol = string<br/> timeout = number<br/> unhealthy_threshold = number<br/> internal = bool<br/> })<br/> }))</pre>                                                                                                                               | n/a     |   yes    |
+
+## Outputs
+
+No outputs.
+
+<!-- END_TF_DOCS -->
