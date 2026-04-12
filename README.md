@@ -2,20 +2,20 @@
 
 ## Overview
 
-**[sandbox-ecommerce-api](https://github.com/ym1085/sandbox-ecommerce-api) (쇼핑몰 API)** 서비스를 AWS 환경에 배포하고 운영하기 위한 인프라(VPC, ECS, EC2, ALB 등) 프로비저닝 코드를 관리하는 저장소입니다.
-모든 리소스는 재사용 가능한 Terraform 모듈로 구성되어, 환경별(dev/stg/prod) 인프라 배포를 지원합니다.
+**[sandbox-ecommerce-api](https://github.com/ym1085/sandbox-ecommerce-api)** 서비스의 AWS 인프라를 Terraform으로 관리하고,
+모듈 기반으로 환경별(dev/stg/prod) 배포를 지원합니다.
 
 ## Project Structure
 
 ```text
-├── env/                            # 환경별 인프라 설정
-│   └── stg/                        # 스테이징 환경
-│       └── apne2/                  # ap-northeast-2 리전
-│           └── sandbox/            # Sandbox 인프라 스택
+├── env/
+│   └── stg/
+│       └── apne2/                  # ap-northeast-2
+│           └── sandbox/            # Sandbox 서비스 구분
 │               ├── _common/        # 공통 Provider 설정
 │               ├── 01-global/      # S3, ACM/Route53, IAM 등 글로벌 리소스
 │               ├── 02-network/     # VPC, Subnet, Route Tables
-│               ├── 03-ecr/         # Container Registry
+│               ├── 03-ecr/         # ECR Container Registry
 │               ├── 04-elb/         # Load Balancer, Target Group
 │               └── 05-compute/     # EC2, ECS 등 컴퓨팅 리소스
 ├── modules/
@@ -23,12 +23,12 @@
 │       ├── acm_route53/            # ACM & Route53
 │       ├── code_series/            # CI/CD (CodeDeploy)
 │       ├── compute/                # EC2, ECS, EKS
-│       ├── ecr/                    # Elastic Container Registry
-│       ├── elb/                    # Load Balancers
+│       ├── ecr/                    # ECR Container Registry
+│       ├── elb/                    # Load Balancer, Target Group
 │       ├── iam/                    # IAM Roles/Policies
 │       ├── network/                # VPC, Subnets, Route Tables
 │       └── s3/                     # S3 Buckets
-└── atlantis.yaml                   # Atlantis GitOps 설정
+└── atlantis.yaml                   # Atlantis 설정
 └── .terraform-docs.yml             # Terraform Docs 설정
 ```
 
@@ -43,11 +43,11 @@
 
 ## Documentation
 
-본 프로젝트는 실제 프로비저닝을 수행하는 **Root (Environment) Stacks**와 재사용성을 위한 **Terraform Modules**로 나뉘어 있습니다. 각 디렉터리별 상세한 인프라 구성 및 변수 정보는 아래 링크된 `README.md`를 참고하시기 바랍니다.
+실제 프로비저닝을 수행하는 **Root (Environment) Stacks**와 재사용성을 위한 **Terraform Modules**로 구분되어 있습니다. 인프라 구성 및 상세 정보는 아래 표를 참고하시면 됩니다.
 
 ### 1. Root (Environment) Stacks (`env/stg/apne2/sandbox/`)
 
-실제 인프라 배포가 이루어지는 단위 모음입니다. 지정된 배포 순서(`01` -> `05`)에 따라 각 폴더 내 `Makefile`을 통해 실행됩니다.
+> 실제 인프라 **배포 단위**이며, **01 → 05** 순서로 각 폴더의 Makefile을 통해 실행합니다.
 
 | 스택 이름            | 경로 (README 링크)                                                           | 주요 설명                                                          |
 | -------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------ |
@@ -61,7 +61,7 @@
 
 ### 2. Terraform Modules (`modules/aws/`)
 
-인프라 구성의 일관성을 유지하기 위해 캡슐화된 재사용 가능한 모듈 목록입니다.
+> 일관된 인프라 구성을 위한 재사용 가능한 모듈 목록입니다.
 
 | 모듈 이름         | 경로 (README 링크)                                                         | 주요 설명                                                        |
 | ----------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------- |
