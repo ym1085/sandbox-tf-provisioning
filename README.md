@@ -2,42 +2,94 @@
 
 ## Overview
 
-VPC, ECS, EC2, ALB 등 AWS 인프라를 Terraform 모듈 구조로 설계하고, 환경(dev/stg/prod)별 설정을 분리하여 배포 및 관리합니다.
+**[sandbox-ecommerce-api](https://github.com/ym1085/sandbox-ecommerce-api) (쇼핑몰 API)** 서비스를 AWS 환경에 배포하고 운영하기 위한 인프라(VPC, ECS, EC2, ALB 등) 프로비저닝 코드를 관리하는 저장소입니다.
+모든 리소스는 재사용 가능한 Terraform 모듈로 구성되어, 환경별(dev/stg/prod) 인프라 배포를 지원합니다.
 
 ## Project Structure
 
-```
-├── env/                       # 환경별 설정
-│   └── stg/                   # 스테이징 환경
-│       └── apne2/             # ap-northeast-2 리전
-│           └── sandbox/       # sandbox 인프라 스택
-├── modules/                   # 재사용 가능한 Terraform 모듈
+```text
+├── env/                            # 환경별 인프라 설정
+│   └── stg/                        # 스테이징 환경
+│       └── apne2/                  # ap-northeast-2 리전
+│           └── sandbox/            # Sandbox 인프라 스택
+│               ├── _common/        # 공통 Provider 설정
+│               ├── 01-global/      # S3, ACM/Route53, IAM 등 글로벌 리소스
+│               ├── 02-network/     # VPC, Subnet, Route Tables
+│               ├── 03-ecr/         # Container Registry
+│               ├── 04-elb/         # Load Balancer, Target Group
+│               └── 05-compute/     # EC2, ECS 등 컴퓨팅 리소스
+├── modules/
 │   └── aws/
-│       ├── acm/               # AWS Certificate Manager
-│       ├── cicd/              # CI/CD 리소스 (CodeDeploy)
-│       ├── compute/           # Compute resources (EC2, ECS, EKS)
-│       ├── ecr/               # Elastic Container Registry
-│       ├── elb/               # Elastic Load Balancer
-│       ├── iam/               # IAM roles and policies
-│       ├── network/           # VPC and networking
-│       ├── storage/           # S3 storage
-│       └── vpc_endpoint/      # VPC endpoints
-└── atlantis.yaml              # Atlantis configuration for GitOps
+│       ├── acm_route53/            # ACM & Route53
+│       ├── code_series/            # CI/CD (CodeDeploy)
+│       ├── compute/                # EC2, ECS, EKS
+│       ├── ecr/                    # Elastic Container Registry
+│       ├── elb/                    # Load Balancers
+│       ├── iam/                    # IAM Roles/Policies
+│       ├── network/                # VPC, Subnets, Route Tables
+│       └── s3/                     # S3 Buckets
+└── atlantis.yaml                   # Atlantis GitOps 설정
+└── .terraform-docs.yml             # Terraform Docs 설정
 ```
 
 ## Prerequisites
 
 - Terraform v1.11.4
 - AWS CLI 2.33.29
-- Atlantis (optional: for GitOps workflow)
+- GNU Make
+- terraform-docs
+- tf-summarize
+- Atlantis (optional)
+
+## Documentation
+
+본 프로젝트는 실제 프로비저닝을 수행하는 **Root (Environment) Stacks**와 재사용성을 위한 **Terraform Modules**로 나뉘어 있습니다. 각 디렉터리별 상세한 인프라 구성 및 변수 정보는 아래 링크된 `README.md`를 참고하시기 바랍니다.
+
+### 1. Root (Environment) Stacks (`env/stg/apne2/sandbox/`)
+
+실제 인프라 배포가 이루어지는 단위 모음입니다. 지정된 배포 순서(`01` -> `05`)에 따라 각 폴더 내 `Makefile`을 통해 실행됩니다.
+
+| 스택 이름            | 경로 (README 링크)                                                           | 주요 설명                                                          |
+| -------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| **01-global**        | [`env/.../01-global`](./env/stg/apne2/sandbox/01-global/README.md)           | S3, ACM/Route53, IAM 등 리전/계정 수준의 글로벌 및 공통 리소스     |
+| **02-network**       | [`env/.../02-network`](./env/stg/apne2/sandbox/02-network/README.md)         | VPC, Subnet, Route Table 등 기본 네트워크 인프라                   |
+| **03-ecr**           | [`env/.../03-ecr`](./env/stg/apne2/sandbox/03-ecr/README.md)                 | 이미지 보관용 ECR Container Registry                               |
+| **04-elb**           | [`env/.../04-elb`](./env/stg/apne2/sandbox/04-elb/README.md)                 | Application/Network Load Balancer 및 Target Group                  |
+| **05-compute (EC2)** | [`env/.../05-compute/ec2`](./env/stg/apne2/sandbox/05-compute/ec2/README.md) | EC2 인스턴스 기반 컴퓨팅 리소스                                    |
+| **05-compute (ECS)** | [`env/.../05-compute/ecs`](./env/stg/apne2/sandbox/05-compute/ecs/README.md) | ECS 클러스터 및 Fargate/EC2 워크로드                               |
+| **\_common**         | [`env/.../_common`](./env/stg/apne2/sandbox/_common/README.md)               | 환경 내 스택들이 공통으로 참조하는 Provider 및 Backend 설정 가이드 |
+
+### 2. Terraform Modules (`modules/aws/`)
+
+인프라 구성의 일관성을 유지하기 위해 캡슐화된 재사용 가능한 모듈 목록입니다.
+
+| 모듈 이름         | 경로 (README 링크)                                                         | 주요 설명                                                        |
+| ----------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| **ACM & Route53** | [`modules/.../acm_route53`](./modules/aws/acm_route53/README.md)           | ACM 인증서 발급 및 Route53 DNS 레코드 관리                       |
+| **CodeDeploy**    | [`modules/.../codedeploy`](./modules/aws/code_series/codedeploy/README.md) | CI/CD용 AWS CodeDeploy 애플리케이션 및 배포 그룹 구성            |
+| **EC2**           | [`modules/.../compute/ec2`](./modules/aws/compute/ec2/README.md)           | EC2 인스턴스 생성 (보안 그룹 및 IAM Role 포함)                   |
+| **ECS**           | [`modules/.../compute/ecs`](./modules/aws/compute/ecs/README.md)           | ECS 클러스터, Task Definition 및 Service 구성 템플릿             |
+| **ECR**           | [`modules/.../ecr`](./modules/aws/ecr/README.md)                           | ECR 프로비저닝                                                   |
+| **ELB**           | [`modules/.../elb`](./modules/aws/elb/README.md)                           | Load Balancer, Listener 및 Target Group 구성                     |
+| **IAM**           | [`modules/.../iam`](./modules/aws/iam/README.md)                           | 재사용 가능한 IAM Role 및 Policy 구성                            |
+| **Network**       | [`modules/.../network`](./modules/aws/network/README.md)                   | VPC, Subnet, Route Table, IGW/NAT 등 핵심 네트워크 토폴로지 구성 |
+| **S3**            | [`modules/.../s3`](./modules/aws/s3/README.md)                             | S3 버킷 생성 및 정책/라이프사이클 규칙 관리                      |
 
 ## Deployment
 
-```bash
-# 환경 디렉토리로 이동
-cd env/stg/apne2/sandbox/network
+각 스택은 `remote_state` 의존성이 존재하므로, 기본 인프라인 `01`, `02`, `03` 스택을 먼저 배포한 후, 이를 참조하는 `04`, `05` 스택을 순차적으로 배포해야 합니다.
+또한, 각 디렉터리 내에 포함된 `Makefile`을 사용하여 프로비저닝을 수행합니다.
 
-terraform init
-terraform plan
-terraform apply
+### 배포 순서 및 방법 예시
+
+```bash
+# Terraform 배포 대상 스택 디렉터리로 이동 (예: Network)
+cd env/stg/apne2/sandbox/02-network
+
+# Terraform 초기화 및 플랜 확인
+make init
+make plan
+
+# 리소스 생성 적용
+make apply
 ```
