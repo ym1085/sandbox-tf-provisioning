@@ -4,7 +4,7 @@
 variable "project_name" {
   description = "프로젝트 이름 설정"
   type        = string
-  default     = "terraform-ecs"
+  default     = "sandbox"
 }
 
 variable "aws_region" {

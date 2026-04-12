@@ -29,17 +29,17 @@ No modules.
 
 ## Inputs
 
-| Name                                                                                          | Description                      | Type           | Default           | Required |
-| --------------------------------------------------------------------------------------------- | -------------------------------- | -------------- | ----------------- | :------: |
-| <a name="input_availability_zones"></a> [availability_zones](#input_availability_zones)       | 가용 영역 설정                   | `list(string)` | n/a               |   yes    |
-| <a name="input_enable_dns_hostnames"></a> [enable_dns_hostnames](#input_enable_dns_hostnames) | DNS hostname 사용 가능 여부 지정 | `bool`         | n/a               |   yes    |
-| <a name="input_enable_dns_support"></a> [enable_dns_support](#input_enable_dns_support)       | AWS DNS 사용 가능 여부 지정      | `bool`         | n/a               |   yes    |
-| <a name="input_env"></a> [env](#input_env)                                                    | AWS 개발 환경 설정               | `string`       | n/a               |   yes    |
-| <a name="input_private_subnets_cidr"></a> [private_subnets_cidr](#input_private_subnets_cidr) | 프라이빗 서브넷 설정             | `list(string)` | n/a               |   yes    |
-| <a name="input_project_name"></a> [project_name](#input_project_name)                         | 프로젝트 이름 설정               | `string`       | `"terraform-ecs"` |    no    |
-| <a name="input_public_subnets_cidr"></a> [public_subnets_cidr](#input_public_subnets_cidr)    | 퍼블릭 서브넷 설정               | `list(string)` | n/a               |   yes    |
-| <a name="input_tags"></a> [tags](#input_tags)                                                 | 공통 태그 설정                   | `map(string)`  | n/a               |   yes    |
-| <a name="input_vpc_cidr"></a> [vpc_cidr](#input_vpc_cidr)                                     | VPC CIDR 설정                    | `string`       | n/a               |   yes    |
+| Name                                                                                          | Description                      | Type           | Default     | Required |
+| --------------------------------------------------------------------------------------------- | -------------------------------- | -------------- | ----------- | :------: |
+| <a name="input_availability_zones"></a> [availability_zones](#input_availability_zones)       | 가용 영역 설정                   | `list(string)` | n/a         |   yes    |
+| <a name="input_enable_dns_hostnames"></a> [enable_dns_hostnames](#input_enable_dns_hostnames) | DNS hostname 사용 가능 여부 지정 | `bool`         | n/a         |   yes    |
+| <a name="input_enable_dns_support"></a> [enable_dns_support](#input_enable_dns_support)       | AWS DNS 사용 가능 여부 지정      | `bool`         | n/a         |   yes    |
+| <a name="input_env"></a> [env](#input_env)                                                    | AWS 개발 환경 설정               | `string`       | n/a         |   yes    |
+| <a name="input_private_subnets_cidr"></a> [private_subnets_cidr](#input_private_subnets_cidr) | 프라이빗 서브넷 설정             | `list(string)` | n/a         |   yes    |
+| <a name="input_project_name"></a> [project_name](#input_project_name)                         | 프로젝트 이름 설정               | `string`       | `"sandbox"` |    no    |
+| <a name="input_public_subnets_cidr"></a> [public_subnets_cidr](#input_public_subnets_cidr)    | 퍼블릭 서브넷 설정               | `list(string)` | n/a         |   yes    |
+| <a name="input_tags"></a> [tags](#input_tags)                                                 | 공통 태그 설정                   | `map(string)`  | n/a         |   yes    |
+| <a name="input_vpc_cidr"></a> [vpc_cidr](#input_vpc_cidr)                                     | VPC CIDR 설정                    | `string`       | n/a         |   yes    |
 
 ## Outputs
 
