@@ -10,16 +10,16 @@
 ```text
 ├── env/
 │   └── stg/
-│       └── apne2/                  # ap-northeast-2
-│           └── sandbox/            # Sandbox 서비스 구분
+│       └── apne2/
+│           └── sandbox/
 │               ├── _common/        # 공통 Provider 설정
 │               ├── 01-global/      # S3, ACM/Route53, IAM 등 글로벌 리소스
 │               ├── 02-network/     # VPC, Subnet, Route Tables
 │               ├── 03-ecr/         # ECR Container Registry
 │               ├── 04-elb/         # Load Balancer, Target Group
-│               ├── 05-compute/     # EC2, ECS 등 컴퓨팅 리소스
-│               │   ├── ec2/
-│               │   └── ecs/
+│               ├── 05-compute/
+│               │   ├── ec2/        # EC2 인스턴스
+│               │   └── ecs/        # ECS 클러스터 및 Fargate/EC2 워크로드
 │               └── 06-cicd/        # CodeDeploy 등 CI/CD 파이프라인 리소스
 │
 ├── modules/
