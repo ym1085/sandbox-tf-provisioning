@@ -2,8 +2,7 @@
 
 ## Overview
 
-AWS 인프라를 Terraform으로 관리하는 IaC 리포지토리입니다.  
-모듈 기반 구조를 적용해 dev/stg/prod 환경별 인프라를 구성합니다.
+AWS 인프라를 Terraform으로 관리하는 IaC 리포지토리입니다. 모듈화된 구조를 기반으로 dev/stg/prod 환경별 인프라를 일관되게 프로비저닝하고 관리합니다.
 
 ## Project Structure
 
