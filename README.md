@@ -2,7 +2,7 @@
 
 ## Overview
 
-**[sandbox-ecommerce-api](https://github.com/ym1085/sandbox-ecommerce-api)** 서비스의 AWS 인프라를 Terraform으로 관리하는 IaC 리포지토리입니다.  
+AWS 인프라를 Terraform으로 관리하는 IaC 리포지토리입니다.  
 모듈 기반 구조를 적용해 dev/stg/prod 환경별 인프라를 구성합니다.
 
 ## Project Structure
