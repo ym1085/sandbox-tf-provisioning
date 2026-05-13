@@ -1,21 +1,119 @@
-# https://www.runatlantis.io/docs/repo-level-atlantis-yaml.html#example-using-all-keys
 version: 3
 
 projects:
-  - name: sandbox-stg
-    branch: /^(dev|master)$/ # dev or master
-    dir: env/stg/apne2/sandbox # atlantis base dir
+  - name: sandbox-stg-global
+    branch: /^dev$/
+    dir: env/stg/apne2/sandbox/01-global
     terraform_version: "1.11.4"
-    delete_source_branch_on_merge: false
+    delete_source_branch_on_merge: true
     autoplan:
       enabled: true
       when_modified:
         - "*.tf"
         - "*.tfvars"
-        - "../modules/aws/**/*.tf"
+        - ".terraform.lock.hcl"
+        - "../../../../../modules/aws/iam/**/*.tf"
+        - "../../../../../modules/aws/s3/**/*.tf"
+        - "../../../../../modules/aws/acm_route53/**/*.tf"
     workflow: sandbox-workflow-stg
-    plan_requirements: [mergeable] # plan 실행 조건
-    apply_requirements: [mergeable, approved] # apply 실행 조건
+    plan_requirements: [mergeable]
+    apply_requirements: [approved]
+
+  - name: sandbox-stg-network
+    branch: /^dev$/
+    dir: env/stg/apne2/sandbox/02-network
+    terraform_version: "1.11.4"
+    delete_source_branch_on_merge: true
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - ".terraform.lock.hcl"
+        - "../../../../../modules/aws/network/**/*.tf"
+    workflow: sandbox-workflow-stg
+    plan_requirements: [mergeable]
+    apply_requirements: [approved]
+
+  - name: sandbox-stg-ecr
+    branch: /^dev$/
+    dir: env/stg/apne2/sandbox/03-ecr
+    terraform_version: "1.11.4"
+    delete_source_branch_on_merge: true
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - ".terraform.lock.hcl"
+        - "../../../../../modules/aws/ecr/**/*.tf"
+    workflow: sandbox-workflow-stg
+    plan_requirements: [mergeable]
+    apply_requirements: [approved]
+
+  - name: sandbox-stg-elb
+    branch: /^dev$/
+    dir: env/stg/apne2/sandbox/04-elb
+    terraform_version: "1.11.4"
+    delete_source_branch_on_merge: true
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - ".terraform.lock.hcl"
+        - "../../../../../modules/aws/elb/**/*.tf"
+    workflow: sandbox-workflow-stg
+    plan_requirements: [mergeable]
+    apply_requirements: [approved]
+
+  - name: sandbox-stg-compute-ec2
+    branch: /^dev$/
+    dir: env/stg/apne2/sandbox/05-compute/ec2
+    terraform_version: "1.11.4"
+    delete_source_branch_on_merge: true
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - ".terraform.lock.hcl"
+        - "../../../../../../modules/aws/compute/ec2/**/*.tf"
+    workflow: sandbox-workflow-stg
+    plan_requirements: [mergeable]
+    apply_requirements: [approved]
+
+  - name: sandbox-stg-compute-ecs
+    branch: /^dev$/
+    dir: env/stg/apne2/sandbox/05-compute/ecs
+    terraform_version: "1.11.4"
+    delete_source_branch_on_merge: true
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - ".terraform.lock.hcl"
+        - "../../../../../../modules/aws/compute/ecs/**/*.tf"
+    workflow: sandbox-workflow-stg
+    plan_requirements: [mergeable]
+    apply_requirements: [approved]
+
+  - name: sandbox-stg-cicd
+    branch: /^dev$/
+    dir: env/stg/apne2/sandbox/06-cicd
+    terraform_version: "1.11.4"
+    delete_source_branch_on_merge: true
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - ".terraform.lock.hcl"
+        - "../../../../../modules/aws/cicd/codedeploy/**/*.tf"
+    workflow: sandbox-workflow-stg
+    plan_requirements: [mergeable]
+    apply_requirements: [approved]
 
 workflows:
   sandbox-workflow-stg:
