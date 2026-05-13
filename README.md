@@ -93,7 +93,4 @@ cd env/stg/apne2/sandbox/02-network
 # Terraform 초기화 및 플랜 확인
 make init
 make plan
-
-# 리소스 생성 적용
-make apply
 ```
