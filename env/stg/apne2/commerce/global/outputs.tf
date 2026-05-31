@@ -1,6 +1,5 @@
 # env/stg/apne2/commerce/global/outputs.tf
 
-# iam
 output "iam_role_ids" {
   description = "Map of IAM role IDs"
   value       = module.iam.iam_role_ids
@@ -36,7 +35,6 @@ output "iam_instance_profile" {
   value       = module.iam.iam_instance_profile
 }
 
-# acm
 output "acm_certificate_arns" {
   description = "ACM 인증서 ARN 목록 반환"
   value       = module.acm.acm_certificate_arns

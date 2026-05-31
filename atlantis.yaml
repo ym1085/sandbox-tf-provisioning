@@ -1,9 +1,9 @@
 version: 3
 
 projects:
-  - name: sandbox-stg-global
+  - name: commerce-stg-global
     branch: /^dev$/
-    dir: env/stg/apne2/sandbox/01-global
+    dir: env/stg/apne2/commerce/global
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -13,15 +13,15 @@ projects:
         - "*.tfvars"
         - ".terraform.lock.hcl"
         - "../../../../../modules/aws/iam/**/*.tf"
-        - "../../../../../modules/aws/s3/**/*.tf"
-        - "../../../../../modules/aws/acm_route53/**/*.tf"
-    workflow: sandbox-workflow-stg
+        - "../../../../../modules/aws/acm/**/*.tf"
+        - "../../../../../modules/aws/route53/**/*.tf"
+    workflow: commerce-workflow-stg
     plan_requirements: [mergeable]
     apply_requirements: [approved]
 
-  - name: sandbox-stg-network
+  - name: commerce-stg-network
     branch: /^dev$/
-    dir: env/stg/apne2/sandbox/02-network
+    dir: env/stg/apne2/commerce/network
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -31,13 +31,13 @@ projects:
         - "*.tfvars"
         - ".terraform.lock.hcl"
         - "../../../../../modules/aws/network/**/*.tf"
-    workflow: sandbox-workflow-stg
+    workflow: commerce-workflow-stg
     plan_requirements: [mergeable]
     apply_requirements: [approved]
 
-  - name: sandbox-stg-ecr
+  - name: commerce-stg-ecr
     branch: /^dev$/
-    dir: env/stg/apne2/sandbox/03-ecr
+    dir: env/stg/apne2/commerce/ecr
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -47,13 +47,13 @@ projects:
         - "*.tfvars"
         - ".terraform.lock.hcl"
         - "../../../../../modules/aws/ecr/**/*.tf"
-    workflow: sandbox-workflow-stg
+    workflow: commerce-workflow-stg
     plan_requirements: [mergeable]
     apply_requirements: [approved]
 
-  - name: sandbox-stg-elb
+  - name: commerce-stg-elb
     branch: /^dev$/
-    dir: env/stg/apne2/sandbox/04-elb
+    dir: env/stg/apne2/commerce/elb
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -63,13 +63,13 @@ projects:
         - "*.tfvars"
         - ".terraform.lock.hcl"
         - "../../../../../modules/aws/elb/**/*.tf"
-    workflow: sandbox-workflow-stg
+    workflow: commerce-workflow-stg
     plan_requirements: [mergeable]
     apply_requirements: [approved]
 
-  - name: sandbox-stg-compute-ec2
+  - name: commerce-stg-compute-ec2
     branch: /^dev$/
-    dir: env/stg/apne2/sandbox/05-compute/ec2
+    dir: env/stg/apne2/commerce/compute/ec2
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -79,13 +79,13 @@ projects:
         - "*.tfvars"
         - ".terraform.lock.hcl"
         - "../../../../../../modules/aws/compute/ec2/**/*.tf"
-    workflow: sandbox-workflow-stg
+    workflow: commerce-workflow-stg
     plan_requirements: [mergeable]
     apply_requirements: [approved]
 
-  - name: sandbox-stg-compute-ecs
+  - name: commerce-stg-compute-ecs
     branch: /^dev$/
-    dir: env/stg/apne2/sandbox/05-compute/ecs
+    dir: env/stg/apne2/commerce/compute/ecs
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -95,13 +95,13 @@ projects:
         - "*.tfvars"
         - ".terraform.lock.hcl"
         - "../../../../../../modules/aws/compute/ecs/**/*.tf"
-    workflow: sandbox-workflow-stg
+    workflow: commerce-workflow-stg
     plan_requirements: [mergeable]
     apply_requirements: [approved]
 
-  - name: sandbox-stg-cicd
+  - name: commerce-stg-cicd
     branch: /^dev$/
-    dir: env/stg/apne2/sandbox/06-cicd
+    dir: env/stg/apne2/commerce/cicd
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -111,12 +111,28 @@ projects:
         - "*.tfvars"
         - ".terraform.lock.hcl"
         - "../../../../../modules/aws/cicd/codedeploy/**/*.tf"
-    workflow: sandbox-workflow-stg
+    workflow: commerce-workflow-stg
+    plan_requirements: [mergeable]
+    apply_requirements: [approved]
+
+  - name: commerce-stg-storage
+    branch: /^dev$/
+    dir: env/stg/apne2/commerce/storage
+    terraform_version: "1.11.4"
+    delete_source_branch_on_merge: true
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - ".terraform.lock.hcl"
+        - "../../../../../modules/aws/s3/**/*.tf"
+    workflow: commerce-workflow-stg
     plan_requirements: [mergeable]
     apply_requirements: [approved]
 
 workflows:
-  sandbox-workflow-stg:
+  commerce-workflow-stg:
     plan:
       steps:
         - run: terraform fmt -check -diff

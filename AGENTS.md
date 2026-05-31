@@ -3,7 +3,7 @@
 ## 기술 스택
 
 - Terraform 1.11.4
-- AWS Provider (ap-northeast-2) — `env/stg/apne2/sandbox/_common/provider.tf` 공통 설정, 각 스택에 복사
+- AWS Provider (ap-northeast-2) — `env/stg/apne2/commerce/_common/provider.tf` 공통 설정, 각 스택에 복사
 - Atlantis — GitOps PR 기반 plan/apply 워크플로
 - tf-summarize — `make plan` 시 plan 결과 트리 형식 출력에 사용
 - terraform-docs — 모듈 문서 자동화
@@ -11,22 +11,20 @@
 
 ## 스택 구조
 
-`env/stg/apne2/sandbox/` 아래 각 디렉토리가 독립된 Terraform 루트(state 파일 분리)다.
+`env/stg/apne2/commerce/` 아래 각 디렉토리가 독립된 Terraform 루트(state 파일 분리)다.
 
-| 스택           | remote_state 참조             | outputs.tf |
-| -------------- | ----------------------------- | ---------- |
-| 01-global      | 없음                          | ✓          |
-| 02-network     | 없음                          | ✓          |
-| 03-ecr         | 없음                          | 없음       |
-| 04-elb         | 02-network                    | **없음**   |
-| 05-compute/ec2 | 01-global, 02-network         | 없음       |
-| 05-compute/ecs | 01-global, 02-network, 04-elb | 없음       |
-| 06-cicd        | 01-global, 04-elb             | 없음       |
+| 스택        | remote_state 참조    | outputs.tf |
+| ----------- | -------------------- | ---------- |
+| global      | 없음                 | ✓          |
+| network     | 없음                 | ✓          |
+| ecr         | 없음                 | 없음       |
+| elb         | network              | ✓          |
+| compute/ec2 | global, network      | 없음       |
+| compute/ecs | global, network, elb | 없음       |
+| cicd        | global, elb          | 없음       |
+| storage     | 없음                 | 없음       |
 
-배포 순서: 01 → 02 → 03 → 04 → 05(ec2/ecs 순서 무관) → 06
-
-> **CRITICAL 버그**: `04-elb/outputs.tf`가 없는데 `05-compute/ecs`와 `06-cicd`가
-> `data.terraform_remote_state.elb.outputs.*`를 참조한다. 이 두 스택은 현재 plan이 실패한다.
+배포 순서: global → network → ecr → elb → compute(ec2/ecs 순서 무관) → cicd / storage(순서 무관)
 
 ## 모듈 구조
 
@@ -34,7 +32,8 @@
 
 | 모듈            | 파일 현황                              |
 | --------------- | -------------------------------------- |
-| acm_route53     | variables, main, outputs, locals, data |
+| acm             | variables, main, outputs, locals       |
+| route53         | variables, main, outputs, data         |
 | cicd/codedeploy | variables, main (**outputs.tf 없음**)  |
 | compute/ec2     | variables, main, outputs, locals, data |
 | compute/ecs     | variables, main, outputs, locals       |
@@ -54,12 +53,13 @@
 - 스택 간 참조는 `remote_state.tf`에 `data "terraform_remote_state"` 블록만 선언한다. `main.tf`에 섞지 않는다.
 - `terraform fmt -check` 통과가 Atlantis plan의 선제 조건이다. 모든 `.tf` 파일은 포맷을 맞춘다.
 
-## Atlantis 설정 주의사항
+## Atlantis 설정
 
-`atlantis.yaml`의 현재 상태와 실제 문제:
+`atlantis.yaml`의 현재 상태:
 
-1. **project 항목이 1개뿐**: `dir: env/stg/apne2/sandbox`는 Terraform 루트가 아니다. 각 스택은 독립된 `backend.tf`를 가진 별도 루트이므로 7개(01-global, 02-network, 03-ecr, 04-elb, 05-compute/ec2, 05-compute/ecs, 06-cicd) project 항목이 필요하다. 현재 Atlantis는 어느 스택도 올바르게 plan/apply하지 못한다.
-2. **`when_modified` 경로 오류**: `"../modules/aws/**/*.tf"`는 `env/stg/apne2/modules/aws/`를 가리키므로 실제 모듈 경로(`modules/aws/`)와 다르다. 올바른 상대 경로는 `"../../../../modules/aws/**/*.tf"`다.
+1. **8개 project 항목**: global, network, ecr, elb, compute/ec2, compute/ecs, cicd, storage 각각 독립된 루트로 등록.
+2. **workflow**: `commerce-workflow-stg` — `fmt -check → init → plan -lock=true` 순서.
+3. **when_modified**: 각 스택이 참조하는 모듈 경로를 상대 경로로 지정. `compute/` 하위는 dir 깊이가 1단계 더 깊으므로 `../../../../../../` 사용.
 
 ## 개발 프로세스
 
@@ -70,7 +70,7 @@
 ## 명령어
 
 ```bash
-# 각 스택 디렉토리(예: env/stg/apne2/sandbox/01-global/)에서 실행
+# 각 스택 디렉토리(예: env/stg/apne2/commerce/global/)에서 실행
 make init   # terraform init
 make plan   # terraform plan + tf-summarize 트리 출력
 

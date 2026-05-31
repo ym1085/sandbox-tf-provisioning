@@ -31,12 +31,9 @@ variable "acm_certificate" {
 ########################################
 # Route 53 설정
 ########################################
-variable "route53_zone_settings" {
-  description = "Route53 Zone 설정"
-  type = map(object({
-    mode = string
-    name = string
-  }))
+variable "route_zone_ids" {
+  description = "Route53 Zone ID 맵 (key -> zone_id)"
+  type        = map(string)
 }
 
 ########################################

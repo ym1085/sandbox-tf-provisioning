@@ -12,11 +12,21 @@ module "iam" {
   tags = var.tags
 }
 
-module "acm" {
-  source = "../../../../../modules/aws/acm_route53"
+module "route53" {
+  source = "../../../../../modules/aws/route53"
 
-  acm_certificate       = var.acm_certificate
   route53_zone_settings = var.route53_zone_settings
+
+  project_name = var.project_name
+  env          = var.env
+  tags         = var.tags
+}
+
+module "acm" {
+  source = "../../../../../modules/aws/acm"
+
+  acm_certificate = var.acm_certificate
+  route_zone_ids  = module.route53.route53_zone_id
 
   project_name = var.project_name
   env          = var.env
