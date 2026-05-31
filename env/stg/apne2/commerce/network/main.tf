@@ -1,6 +1,5 @@
 # env/stg/apne2/sandbox/network/main.tf
 
-# network module
 module "network" {
   source = "../../../../../modules/aws/network"
 

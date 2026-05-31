@@ -1,6 +1,5 @@
 # env/stg/apne2/sandbox/01-global/main.tf
 
-# iam module
 module "iam" {
   source = "../../../../../modules/aws/iam"
 
@@ -13,7 +12,6 @@ module "iam" {
   tags = var.tags
 }
 
-# s3 module
 module "s3" {
   source = "../../../../../modules/aws/s3"
 
@@ -24,7 +22,6 @@ module "s3" {
   tags         = var.tags
 }
 
-# acm module
 module "acm" {
   source = "../../../../../modules/aws/acm_route53"
 
