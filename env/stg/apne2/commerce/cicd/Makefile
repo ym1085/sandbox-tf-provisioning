@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/06-cicd/Makefile
+# env/stg/apne2/commerce/cicd/Makefile
 
 .PHONY: init plan
 

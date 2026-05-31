@@ -2,7 +2,7 @@
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "sandbox-terraform-tfstate-stg"
+    bucket = "commerce-terraform-tfstate-stg"
     key    = "stg/apne2/commerce/network/terraform.tfstate"
     region = "ap-northeast-2"
   }
@@ -12,7 +12,7 @@ data "terraform_remote_state" "network" {
 data "terraform_remote_state" "iam" {
   backend = "s3"
   config = {
-    bucket = "sandbox-terraform-tfstate-stg"
+    bucket = "commerce-terraform-tfstate-stg"
     key    = "stg/apne2/commerce/global/terraform.tfstate"
     region = "ap-northeast-2"
   }

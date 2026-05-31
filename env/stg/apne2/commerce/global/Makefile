@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/01-global/Makefile
+# env/stg/apne2/commerce/global/Makefile
 
 .PHONY: init plan
 

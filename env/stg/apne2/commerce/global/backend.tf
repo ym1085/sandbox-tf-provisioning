@@ -1,8 +1,8 @@
-# env/stg/apne2/sandbox/01-global/backend.tf
+# env/stg/apne2/commerce/global/backend.tf
 
 terraform {
   backend "s3" {
-    bucket       = "sandbox-terraform-tfstate-stg"
+    bucket       = "commerce-terraform-tfstate-stg"
     key          = "stg/apne2/commerce/global/terraform.tfstate"
     region       = "ap-northeast-2"
     use_lockfile = true

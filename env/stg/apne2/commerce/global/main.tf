@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/01-global/main.tf
+# env/stg/apne2/commerce/global/main.tf
 
 module "iam" {
   source = "../../../../../modules/aws/iam"
@@ -10,16 +10,6 @@ module "iam" {
   iam_instance_profile  = var.iam_instance_profile
 
   tags = var.tags
-}
-
-module "s3" {
-  source = "../../../../../modules/aws/s3"
-
-  s3_bucket = var.s3_bucket
-
-  project_name = var.project_name
-  env          = var.env
-  tags         = var.tags
 }
 
 module "acm" {

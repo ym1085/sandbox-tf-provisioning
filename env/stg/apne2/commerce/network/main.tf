@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/network/main.tf
+# env/stg/apne2/commerce/network/main.tf
 
 module "network" {
   source = "../../../../../modules/aws/network"

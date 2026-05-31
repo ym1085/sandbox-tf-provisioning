@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/01-global/outputs.tf
+# env/stg/apne2/commerce/global/outputs.tf
 
 # iam
 output "iam_role_ids" {
@@ -40,10 +40,4 @@ output "iam_instance_profile" {
 output "acm_certificate_arns" {
   description = "ACM 인증서 ARN 목록 반환"
   value       = module.acm.acm_certificate_arns
-}
-
-# s3
-output "s3_bucket_names" {
-  description = "생성된 S3 버킷명 목록"
-  value       = module.s3.s3_bucket_names
 }

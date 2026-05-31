@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/network/outputs.tf
+# env/stg/apne2/commerce/network/outputs.tf
 
 # vpc
 output "vpc_id" {

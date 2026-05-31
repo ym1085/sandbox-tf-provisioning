@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/05-compute/ecs/main.tf
+# env/stg/apne2/commerce/compute/ecs/main.tf
 
 module "ecs" {
   source = "../../../../../../modules/aws/compute/ecs"
@@ -17,8 +17,8 @@ module "ecs" {
   ecs_appautoscaling_target_policy = var.ecs_appautoscaling_target_policy
   ecs_cpu_scale_out_alert          = var.ecs_cpu_scale_out_alert
 
-  ecs_task_role_arn      = data.terraform_remote_state.iam.outputs.iam_role_arns["sandbox-ecs-task-role"]
-  ecs_task_exec_role_arn = data.terraform_remote_state.iam.outputs.iam_role_arns["sandbox-ecs-task-exec-role"]
+  ecs_task_role_arn      = data.terraform_remote_state.iam.outputs.iam_role_arns["commerce-ecs-task-role"]
+  ecs_task_exec_role_arn = data.terraform_remote_state.iam.outputs.iam_role_arns["commerce-ecs-task-exec-role"]
   ecs_security_group     = var.ecs_security_group
   ecs_sg_rules           = var.ecs_sg_rules
 

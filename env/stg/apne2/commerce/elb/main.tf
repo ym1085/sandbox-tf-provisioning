@@ -1,4 +1,4 @@
-# env/stg/apne2/sandbox/04-elb/main.tf
+# env/stg/apne2/commerce/elb/main.tf
 
 module "elb" {
   source = "../../../../../modules/aws/elb"
