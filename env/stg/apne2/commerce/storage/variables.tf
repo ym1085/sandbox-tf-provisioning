@@ -1,27 +1,19 @@
 ########################################
 # 프로젝트 기본 설정
 ########################################
-# 프로젝트 이름
 variable "project_name" {
   description = "프로젝트 이름 설정"
   type        = string
 }
 
-# AWS 리전
-variable "aws_region" {
-  description = "AWS 리전 설정"
-  type        = string
-  default     = "ap-northeast-2"
-  validation {
-    condition     = contains(["ap-northeast-2"], var.aws_region)
-    error_message = "지원되지 않는 AWS 리전입니다."
-  }
-}
-
-# AWS 개발 환경
 variable "env" {
   description = "AWS 개발 환경 설정"
   type        = string
+}
+
+variable "tags" {
+  description = "공통 태그 설정"
+  type        = map(string)
 }
 
 ########################################
@@ -51,12 +43,4 @@ variable "s3_bucket" {
     })
     env = string
   }))
-}
-
-########################################
-# 공통 태그 설정
-########################################
-variable "tags" {
-  description = "공통 태그 설정"
-  type        = map(string)
 }

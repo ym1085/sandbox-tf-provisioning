@@ -4,10 +4,11 @@
 variable "project_name" {
   description = "프로젝트 이름 설정"
   type        = string
+  default     = "commerce"
 }
 
 variable "aws_region" {
-  description = "AWS 가용영역 설정"
+  description = "AWS 리전 설정"
   type        = string
   default     = "ap-northeast-2"
   validation {
@@ -29,17 +30,11 @@ variable "aws_account" {
 variable "env" {
   description = "AWS 개발 환경 설정"
   type        = string
-  default     = "stg"
 }
 
 ########################################
 # 네트워크 설정
 ########################################
-variable "vpc_id" {
-  description = "VPC ID 설정"
-  type        = string
-}
-
 variable "public_subnets_cidr" {
   description = "퍼블릭 서브넷 설정"
   type        = list(string)
@@ -50,18 +45,8 @@ variable "private_subnets_cidr" {
   type        = list(string)
 }
 
-variable "public_subnet_ids" {
-  description = "퍼블릭 서브넷 대역 ID([subnet-xxxxxxxx, subnet-xxxxxxxx])"
-  type        = list(string)
-}
-
-variable "private_subnet_ids" {
-  description = "프라이빗 서브넷 대역 ID([subnet-xxxxxxxx, subnet-xxxxxxxx])"
-  type        = list(string)
-}
-
 ########################################
-# Modules - ECS
+# ECS 클러스터 설정
 ########################################
 variable "ecs_cluster" {
   description = "ECS Cluster 설정"
@@ -92,16 +77,6 @@ variable "ecs_sg_rules" {
     cidr_ipv4                    = optional(list(string))
     referenced_security_group_id = optional(list(string))
   }))
-}
-
-variable "ecs_task_role_arn" {
-  description = "security module에서 생성된 role arn을 참조"
-  type        = string
-}
-
-variable "ecs_task_exec_role_arn" {
-  description = "security module에서 생성된 role arn을 참조"
-  type        = string
 }
 
 variable "ecs_task_definitions" {
@@ -220,19 +195,6 @@ variable "ecs_cpu_scale_out_alert" {
     })
     env = string
   }))
-}
-
-########################################
-# 로드밸런서 설정
-########################################
-variable "alb_tg_arn" {
-  description = "AWS ECS ALB TG ARN"
-  type        = map(string)
-}
-
-variable "alb_listener_arn" {
-  description = "AWS ECS ALB LISTENER ARN"
-  type        = map(string)
 }
 
 ########################################

@@ -14,9 +14,9 @@
 스택별 Terraform 루트를 Atlantis project로 1:1 매핑한다.
 
 ```yaml
-- name: sandbox-stg-global
+- name: commerce-stg-global
   branch: /^dev$/
-  dir: env/stg/apne2/sandbox/01-global
+  dir: env/stg/apne2/commerce/global
   terraform_version: "1.11.4"
   autoplan:
     enabled: true
@@ -24,8 +24,10 @@
       - "*.tf"
       - "*.tfvars"
       - ".terraform.lock.hcl"
-      - "../../../../../modules/aws/s3/**/*.tf"
-  workflow: sandbox-workflow-stg
+      - "../../../../../modules/aws/iam/**/*.tf"
+      - "../../../../../modules/aws/acm/**/*.tf"
+      - "../../../../../modules/aws/route53/**/*.tf"
+  workflow: commerce-workflow-stg
   plan_requirements: [mergeable]
   apply_requirements: [approved]
 ```
@@ -45,15 +47,16 @@
 
 ## 프로젝트 분리 기준
 
-| Project 이름              | Terraform 루트(`dir`)                  | 참조 모듈 경로             |
-| ------------------------- | -------------------------------------- | -------------------------- |
-| `sandbox-stg-global`      | `env/stg/apne2/sandbox/01-global`      | `iam`, `s3`, `acm_route53` |
-| `sandbox-stg-network`     | `env/stg/apne2/sandbox/02-network`     | `network`                  |
-| `sandbox-stg-ecr`         | `env/stg/apne2/sandbox/03-ecr`         | `ecr`                      |
-| `sandbox-stg-elb`         | `env/stg/apne2/sandbox/04-elb`         | `elb`                      |
-| `sandbox-stg-compute-ec2` | `env/stg/apne2/sandbox/05-compute/ec2` | `compute/ec2`              |
-| `sandbox-stg-compute-ecs` | `env/stg/apne2/sandbox/05-compute/ecs` | `compute/ecs`              |
-| `sandbox-stg-cicd`        | `env/stg/apne2/sandbox/06-cicd`        | `cicd/codedeploy`          |
+| Project 이름               | Terraform 루트(`dir`)                   | 참조 모듈                   |
+| -------------------------- | --------------------------------------- | --------------------------- |
+| `commerce-stg-global`      | `env/stg/apne2/commerce/global`         | `iam`, `acm`, `route53`     |
+| `commerce-stg-network`     | `env/stg/apne2/commerce/network`        | `network`                   |
+| `commerce-stg-ecr`         | `env/stg/apne2/commerce/ecr`            | `ecr`                       |
+| `commerce-stg-elb`         | `env/stg/apne2/commerce/elb`            | `elb`                       |
+| `commerce-stg-compute-ec2` | `env/stg/apne2/commerce/compute/ec2`    | `compute/ec2`               |
+| `commerce-stg-compute-ecs` | `env/stg/apne2/commerce/compute/ecs`    | `compute/ecs`               |
+| `commerce-stg-cicd`        | `env/stg/apne2/commerce/cicd`           | `cicd/codedeploy`           |
+| `commerce-stg-storage`     | `env/stg/apne2/commerce/storage`        | `s3`                        |
 
 - 각 디렉토리가 독립된 `backend.tf`를 가진다
 - state 파일이 스택별로 분리된다
@@ -70,15 +73,16 @@
 
 모듈 상대 경로는 `dir` 기준으로 계산한다.
 
-| Project 이름              | `dir` 기준 모듈 상대 경로 예시                       |
-| ------------------------- | ---------------------------------------------------- |
-| `sandbox-stg-global`      | `../../../../../modules/aws/s3/**/*.tf`              |
-| `sandbox-stg-network`     | `../../../../../modules/aws/network/**/*.tf`         |
-| `sandbox-stg-ecr`         | `../../../../../modules/aws/ecr/**/*.tf`             |
-| `sandbox-stg-elb`         | `../../../../../modules/aws/elb/**/*.tf`             |
-| `sandbox-stg-compute-ec2` | `../../../../../../modules/aws/compute/ec2/**/*.tf`  |
-| `sandbox-stg-compute-ecs` | `../../../../../../modules/aws/compute/ecs/**/*.tf`  |
-| `sandbox-stg-cicd`        | `../../../../../modules/aws/cicd/codedeploy/**/*.tf` |
+| Project 이름               | `dir` 기준 모듈 상대 경로 예시                               |
+| -------------------------- | ------------------------------------------------------------ |
+| `commerce-stg-global`      | `../../../../../modules/aws/iam/**/*.tf`                     |
+| `commerce-stg-network`     | `../../../../../modules/aws/network/**/*.tf`                 |
+| `commerce-stg-ecr`         | `../../../../../modules/aws/ecr/**/*.tf`                     |
+| `commerce-stg-elb`         | `../../../../../modules/aws/elb/**/*.tf`                     |
+| `commerce-stg-compute-ec2` | `../../../../../../modules/aws/compute/ec2/**/*.tf`          |
+| `commerce-stg-compute-ecs` | `../../../../../../modules/aws/compute/ecs/**/*.tf`          |
+| `commerce-stg-cicd`        | `../../../../../modules/aws/cicd/codedeploy/**/*.tf`         |
+| `commerce-stg-storage`     | `../../../../../modules/aws/s3/**/*.tf`                      |
 
 ## `workflow` 필드
 
@@ -86,7 +90,7 @@
 
 ```yaml
 workflows:
-  sandbox-workflow-stg:
+  commerce-workflow-stg:
     plan:
       steps:
         - run: terraform fmt -check -diff
@@ -95,11 +99,11 @@ workflows:
             extra_args: ["-lock=true"]
 ```
 
-| Workflow               | 단계         | 실행 내용                    | 의도                               |
-| ---------------------- | ------------ | ---------------------------- | ---------------------------------- |
-| `sandbox-workflow-stg` | `plan` 1단계 | `terraform fmt -check -diff` | 포맷 불일치를 plan 전에 차단       |
-| `sandbox-workflow-stg` | `plan` 2단계 | `terraform init`             | remote backend 초기화 수행         |
-| `sandbox-workflow-stg` | `plan` 3단계 | `terraform plan -lock=true`  | state lock으로 동시 실행 충돌 완화 |
+| Workflow                | 단계         | 실행 내용                    | 의도                               |
+| ----------------------- | ------------ | ---------------------------- | ---------------------------------- |
+| `commerce-workflow-stg` | `plan` 1단계 | `terraform fmt -check -diff` | 포맷 불일치를 plan 전에 차단       |
+| `commerce-workflow-stg` | `plan` 2단계 | `terraform init`             | remote backend 초기화 수행         |
+| `commerce-workflow-stg` | `plan` 3단계 | `terraform plan -lock=true`  | state lock으로 동시 실행 충돌 완화 |
 
 ## 운영 규칙
 
