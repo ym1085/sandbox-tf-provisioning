@@ -1,14 +1,26 @@
 # .terraform-docs.yml
 # https://lalalilala.tistory.com/entry/READMEmd-%EC%9E%91%EC%84%B1-%EC%9E%90%EB%8F%99%ED%99%94-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%E2%80%98Terraform-Docs%E2%80%99-%EA%B0%84%EB%8B%A8%EC%86%8C%EA%B0%9C
 
-# 출력 형식 지정
-formatter: "markdown table"
+# 출력 형식: markdown table (Github README에서 표로 랜더링)
+# 대안: markdown document (산문 형식, 더 길고 상세)
+formatter: "markdown document"
 
-# 하위 디렉토리 자동 탐색 설정
 recursive:
-  enabled: true # 하위 폴더 탐색 기능 활성화
-  path: "." # 루트부터 모든 하위 폴더를 탐색
-  include-main: true # 루트 폴더에 테람폼 파일 있을 경우 문서화에 포함할지 여부
+  enabled: true # true면 path 하위 디렉토리 전체 재귀 탐색
+  path: "modules/aws" # 탐색 시작 경로 ("." 이면 env/ 스택까지 포함됨)
+  include-main: true # path 자신에도 tf 파일 있으면 문서화 포함
+
+# inputs 정렬 기준
+sort:
+  enabled: true
+  by: required # required 변수 먼저, optional 나중에
+
+# 출력할 섹션 제어
+# 숨길 수 있는 전체 목록: requirements, providers, modules, resources, inputs, outputs
+sections:
+  hide:
+    - requirements # 버전 제약 없으면 "No requirements." 빈 내용만 나옴
+    - modules # 서브모듈 안 쓰면 마찬가지로 빈 내용
 
 output:
   file: "README.md" # 생성된 내용 파일명
