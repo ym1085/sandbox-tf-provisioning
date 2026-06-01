@@ -11,8 +11,29 @@ variable "availability_zones" {
   type        = list(string)
 }
 
+variable "aws_region" {
+  description = "AWS 리전 설정"
+  type        = string
+  default     = "ap-northeast-2"
+  validation {
+    condition     = contains(["ap-northeast-2"], var.aws_region)
+    error_message = "지원되지 않는 AWS 리전입니다."
+  }
+}
+
+variable "aws_region_short" {
+  description = "AWS 리전 축약어 (예: apne2, use1)"
+  type        = string
+  default     = "apne2"
+}
+
 variable "env" {
   description = "AWS 개발 환경 설정"
+  type        = string
+}
+
+variable "terraform_state_bucket_name" {
+  description = "Terraform remote state가 저장된 S3 버킷 이름 (예: domain-terraform-tfstate-stg)"
   type        = string
 }
 
