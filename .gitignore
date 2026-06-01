@@ -148,3 +148,6 @@ modules/aws/compute/ec2/keypair/
 
 .idea/*
 .vscode/*
+
+# assume-role 스크립트
+scripts/assume-role.sh
