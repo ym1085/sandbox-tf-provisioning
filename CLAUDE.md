@@ -13,16 +13,16 @@
 
 `env/stg/apne2/commerce/` 아래 각 디렉토리가 독립된 Terraform 루트(state 파일 분리)다.
 
-| 스택           | remote_state 참조             | outputs.tf |
-| -------------- | ----------------------------- | ---------- |
-| global         | 없음                          | ✓          |
-| network        | 없음                          | ✓          |
-| ecr            | 없음                          | 없음       |
-| elb            | network                       | ✓          |
-| compute/ec2    | global, network               | 없음       |
-| compute/ecs    | global, network, elb          | 없음       |
-| cicd           | global, elb                   | 없음       |
-| storage        | 없음                          | 없음       |
+| 스택        | remote_state 참조    | outputs.tf |
+| ----------- | -------------------- | ---------- |
+| global      | 없음                 | ✓          |
+| network     | 없음                 | ✓          |
+| ecr         | 없음                 | 없음       |
+| elb         | network              | ✓          |
+| compute/ec2 | global, network      | 없음       |
+| compute/ecs | global, network, elb | 없음       |
+| cicd        | global, elb          | 없음       |
+| storage     | 없음                 | 없음       |
 
 배포 순서: global → network → ecr → elb → compute(ec2/ecs 순서 무관) → cicd / storage(순서 무관)
 
