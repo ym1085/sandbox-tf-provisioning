@@ -27,8 +27,19 @@ variable "aws_account" {
   type        = string
 }
 
+variable "aws_region_short" {
+  description = "AWS 리전 축약어 (예: apne2, use1)"
+  type        = string
+  default     = "apne2"
+}
+
 variable "env" {
   description = "AWS 개발 환경 설정"
+  type        = string
+}
+
+variable "terraform_state_bucket_name" {
+  description = "Terraform remote state가 저장된 S3 버킷 이름 (예: domain-terraform-tfstate-stg)"
   type        = string
 }
 
