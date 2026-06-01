@@ -1,9 +1,9 @@
-# network remote state 조회
+# [network 스택] state 참조
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "commerce-terraform-tfstate-stg"
-    key    = "stg/apne2/commerce/network/terraform.tfstate"
-    region = "ap-northeast-2"
+    bucket = "${var.terraform_state_bucket_name}-${var.env}"
+    key    = "${var.env}/${var.aws_region_short}/${var.project_name}/network/terraform.tfstate"
+    region = var.aws_region
   }
 }
