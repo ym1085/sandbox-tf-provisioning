@@ -16,7 +16,7 @@
 ```yaml
 - name: commerce-stg-global
   branch: /^dev$/
-  dir: env/stg/apne2/commerce/global
+  dir: env/stg/apnortheast2/commerce/global
   terraform_version: "1.11.4"
   autoplan:
     enabled: true
@@ -49,14 +49,14 @@
 
 | Project 이름               | Terraform 루트(`dir`)                   | 참조 모듈                   |
 | -------------------------- | --------------------------------------- | --------------------------- |
-| `commerce-stg-global`      | `env/stg/apne2/commerce/global`         | `iam`, `acm`, `route53`     |
-| `commerce-stg-network`     | `env/stg/apne2/commerce/network`        | `network`                   |
-| `commerce-stg-ecr`         | `env/stg/apne2/commerce/ecr`            | `ecr`                       |
-| `commerce-stg-elb`         | `env/stg/apne2/commerce/elb`            | `elb`                       |
-| `commerce-stg-compute-ec2` | `env/stg/apne2/commerce/compute/ec2`    | `compute/ec2`               |
-| `commerce-stg-compute-ecs` | `env/stg/apne2/commerce/compute/ecs`    | `compute/ecs`               |
-| `commerce-stg-cicd`        | `env/stg/apne2/commerce/cicd`           | `cicd/codedeploy`           |
-| `commerce-stg-storage`     | `env/stg/apne2/commerce/storage`        | `s3`                        |
+| `commerce-stg-global`      | `env/stg/apnortheast2/commerce/global`         | `iam`, `acm`, `route53`     |
+| `commerce-stg-network`     | `env/stg/apnortheast2/commerce/network`        | `network`                   |
+| `commerce-stg-ecr`         | `env/stg/apnortheast2/commerce/ecr`            | `ecr`                       |
+| `commerce-stg-elb`         | `env/stg/apnortheast2/commerce/elb`            | `elb`                       |
+| `commerce-stg-compute-ec2` | `env/stg/apnortheast2/commerce/compute/ec2`    | `compute/ec2`               |
+| `commerce-stg-compute-ecs` | `env/stg/apnortheast2/commerce/compute/ecs`    | `compute/ecs`               |
+| `commerce-stg-cicd`        | `env/stg/apnortheast2/commerce/cicd`           | `cicd/codedeploy`           |
+| `commerce-stg-storage`     | `env/stg/apnortheast2/commerce/storage`        | `s3`                        |
 
 - 각 디렉토리가 독립된 `backend.tf`를 가진다
 - state 파일이 스택별로 분리된다
