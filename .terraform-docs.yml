@@ -3,7 +3,7 @@
 
 # 출력 형식: markdown table (Github README에서 표로 랜더링)
 # 대안: markdown document (산문 형식, 더 길고 상세)
-formatter: "markdown document"
+formatter: "markdown table"
 
 recursive:
   enabled: true # true면 path 하위 디렉토리 전체 재귀 탐색
