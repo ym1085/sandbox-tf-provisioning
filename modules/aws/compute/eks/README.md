@@ -7,13 +7,9 @@ No providers.
 
 No resources.
 
-## Required Inputs
+## Inputs
 
-No required inputs.
-
-## Optional Inputs
-
-No optional inputs.
+No inputs.
 
 ## Outputs
 
