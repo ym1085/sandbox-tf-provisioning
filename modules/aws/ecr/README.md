@@ -1,45 +1,22 @@
 <!-- BEGIN_TF_DOCS -->
 ## Providers
 
-The following providers are used by this module:
-
-- <a name="provider_aws"></a> [aws](#provider\_aws)
+| Name | Version |
+| ---- | ------- |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 
 ## Resources
 
-The following resources are used by this module:
+| Name | Type |
+| ---- | ---- |
+| [aws_ecr_repository.ecr_repository](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) | resource |
 
-- [aws_ecr_repository.ecr_repository](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) (resource)
+## Inputs
 
-## Required Inputs
-
-The following input variables are required:
-
-### <a name="input_ecr_repository"></a> [ecr\_repository](#input\_ecr\_repository)
-
-Description: ECR repository
-
-Type:
-
-```hcl
-map(object({
-    ecr_repository_name      = string
-    ecr_image_tag_mutability = string
-    ecr_scan_on_push         = bool
-    ecr_force_delete         = bool
-    env                      = string
-  }))
-```
-
-### <a name="input_tags"></a> [tags](#input\_tags)
-
-Description: 공통 태그 설정
-
-Type: `map(string)`
-
-## Optional Inputs
-
-No optional inputs.
+| Name | Description | Type | Default | Required |
+| ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_ecr_repository"></a> [ecr\_repository](#input\_ecr\_repository) | ECR repository | <pre>map(object({<br/>    ecr_repository_name      = string<br/>    ecr_image_tag_mutability = string<br/>    ecr_scan_on_push         = bool<br/>    ecr_force_delete         = bool<br/>    env                      = string<br/>  }))</pre> | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | 공통 태그 설정 | `map(string)` | n/a | yes |
 
 ## Outputs
 
