@@ -3,7 +3,7 @@ version: 3
 projects:
   - name: commerce-stg-global
     branch: /^dev$/
-    dir: env/stg/apne2/commerce/global
+    dir: env/stg/apnortheast2/commerce/global
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -21,7 +21,7 @@ projects:
 
   - name: commerce-stg-network
     branch: /^dev$/
-    dir: env/stg/apne2/commerce/network
+    dir: env/stg/apnortheast2/commerce/network
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -37,7 +37,7 @@ projects:
 
   - name: commerce-stg-ecr
     branch: /^dev$/
-    dir: env/stg/apne2/commerce/ecr
+    dir: env/stg/apnortheast2/commerce/ecr
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -53,7 +53,7 @@ projects:
 
   - name: commerce-stg-elb
     branch: /^dev$/
-    dir: env/stg/apne2/commerce/elb
+    dir: env/stg/apnortheast2/commerce/elb
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -69,7 +69,7 @@ projects:
 
   - name: commerce-stg-compute-ec2
     branch: /^dev$/
-    dir: env/stg/apne2/commerce/compute/ec2
+    dir: env/stg/apnortheast2/commerce/compute/ec2
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -85,7 +85,7 @@ projects:
 
   - name: commerce-stg-compute-ecs
     branch: /^dev$/
-    dir: env/stg/apne2/commerce/compute/ecs
+    dir: env/stg/apnortheast2/commerce/compute/ecs
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -101,7 +101,7 @@ projects:
 
   - name: commerce-stg-cicd
     branch: /^dev$/
-    dir: env/stg/apne2/commerce/cicd
+    dir: env/stg/apnortheast2/commerce/cicd
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:
@@ -117,7 +117,7 @@ projects:
 
   - name: commerce-stg-storage
     branch: /^dev$/
-    dir: env/stg/apne2/commerce/storage
+    dir: env/stg/apnortheast2/commerce/storage
     terraform_version: "1.11.4"
     delete_source_branch_on_merge: true
     autoplan:

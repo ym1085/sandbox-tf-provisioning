@@ -3,7 +3,7 @@
 ## 기술 스택
 
 - Terraform 1.11.4
-- AWS Provider (ap-northeast-2) — `env/stg/apne2/commerce/_common/provider.tf` 공통 설정, 각 스택에 복사
+- AWS Provider (ap-northeast-2) — `env/stg/apnortheast2/commerce/_common/provider.tf` 공통 설정, 각 스택에 복사
 - Atlantis — GitOps PR 기반 plan/apply 워크플로
 - tf-summarize — `make plan` 시 plan 결과 트리 형식 출력에 사용
 - terraform-docs — 모듈 문서 자동화
@@ -11,7 +11,7 @@
 
 ## 스택 구조
 
-`env/stg/apne2/commerce/` 아래 각 디렉토리가 독립된 Terraform 루트(state 파일 분리)다.
+`env/stg/apnortheast2/commerce/` 아래 각 디렉토리가 독립된 Terraform 루트(state 파일 분리)다.
 
 | 스택        | remote_state 참조    | outputs.tf |
 | ----------- | -------------------- | ---------- |
@@ -22,7 +22,7 @@
 | compute/ec2 | global, network      | 없음       |
 | compute/ecs | global, network, elb | 없음       |
 | cicd        | global, elb          | 없음       |
-| storage     | 없음                 | 없음       |
+| storage     | 없음                 | ✓          |
 
 배포 순서: global → network → ecr → elb → compute(ec2/ecs 순서 무관) → cicd / storage(순서 무관)
 
@@ -70,7 +70,7 @@
 ## 명령어
 
 ```bash
-# 각 스택 디렉토리(예: env/stg/apne2/commerce/global/)에서 실행
+# 각 스택 디렉토리(예: env/stg/apnortheast2/commerce/global/)에서 실행
 make init   # terraform init
 make plan   # terraform plan + tf-summarize 트리 출력
 
