@@ -11,11 +11,6 @@ variable "env" {
   type        = string
 }
 
-variable "tags" {
-  description = "공통 태그 설정"
-  type        = map(string)
-}
-
 ########################################
 # S3 설정
 ########################################
@@ -43,4 +38,13 @@ variable "s3_bucket" {
     })
     env = string
   }))
+}
+
+########################################
+# 공통 태그 설정
+########################################
+variable "tags" {
+  description = "공통 태그 설정"
+  type        = map(string)
+  default     = {}
 }
