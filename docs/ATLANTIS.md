@@ -47,16 +47,16 @@
 
 ## 프로젝트 분리 기준
 
-| Project 이름               | Terraform 루트(`dir`)                   | 참조 모듈                   |
-| -------------------------- | --------------------------------------- | --------------------------- |
-| `commerce-stg-global`      | `env/stg/apnortheast2/commerce/global`         | `iam`, `acm`, `route53`     |
-| `commerce-stg-network`     | `env/stg/apnortheast2/commerce/network`        | `network`                   |
-| `commerce-stg-ecr`         | `env/stg/apnortheast2/commerce/ecr`            | `ecr`                       |
-| `commerce-stg-elb`         | `env/stg/apnortheast2/commerce/elb`            | `elb`                       |
-| `commerce-stg-compute-ec2` | `env/stg/apnortheast2/commerce/compute/ec2`    | `compute/ec2`               |
-| `commerce-stg-compute-ecs` | `env/stg/apnortheast2/commerce/compute/ecs`    | `compute/ecs`               |
-| `commerce-stg-cicd`        | `env/stg/apnortheast2/commerce/cicd`           | `cicd/codedeploy`           |
-| `commerce-stg-storage`     | `env/stg/apnortheast2/commerce/storage`        | `s3`                        |
+| Project 이름               | Terraform 루트(`dir`)                       | 참조 모듈               |
+| -------------------------- | ------------------------------------------- | ----------------------- |
+| `commerce-stg-global`      | `env/stg/apnortheast2/commerce/global`      | `iam`, `acm`, `route53` |
+| `commerce-stg-network`     | `env/stg/apnortheast2/commerce/network`     | `network`               |
+| `commerce-stg-ecr`         | `env/stg/apnortheast2/commerce/ecr`         | `ecr`                   |
+| `commerce-stg-elb`         | `env/stg/apnortheast2/commerce/elb`         | `elb`                   |
+| `commerce-stg-compute-ec2` | `env/stg/apnortheast2/commerce/compute/ec2` | `compute/ec2`           |
+| `commerce-stg-compute-ecs` | `env/stg/apnortheast2/commerce/compute/ecs` | `compute/ecs`           |
+| `commerce-stg-cicd`        | `env/stg/apnortheast2/commerce/cicd`        | `cicd/codedeploy`       |
+| `commerce-stg-storage`     | `env/stg/apnortheast2/commerce/storage`     | `s3`                    |
 
 - 각 디렉토리가 독립된 `backend.tf`를 가진다
 - state 파일이 스택별로 분리된다
@@ -73,16 +73,16 @@
 
 모듈 상대 경로는 `dir` 기준으로 계산한다.
 
-| Project 이름               | `dir` 기준 모듈 상대 경로 예시                               |
-| -------------------------- | ------------------------------------------------------------ |
-| `commerce-stg-global`      | `../../../../../modules/aws/iam/**/*.tf`                     |
-| `commerce-stg-network`     | `../../../../../modules/aws/network/**/*.tf`                 |
-| `commerce-stg-ecr`         | `../../../../../modules/aws/ecr/**/*.tf`                     |
-| `commerce-stg-elb`         | `../../../../../modules/aws/elb/**/*.tf`                     |
-| `commerce-stg-compute-ec2` | `../../../../../../modules/aws/compute/ec2/**/*.tf`          |
-| `commerce-stg-compute-ecs` | `../../../../../../modules/aws/compute/ecs/**/*.tf`          |
-| `commerce-stg-cicd`        | `../../../../../modules/aws/cicd/codedeploy/**/*.tf`         |
-| `commerce-stg-storage`     | `../../../../../modules/aws/s3/**/*.tf`                      |
+| Project 이름               | `dir` 기준 모듈 상대 경로 예시                       |
+| -------------------------- | ---------------------------------------------------- |
+| `commerce-stg-global`      | `../../../../../modules/aws/iam/**/*.tf`             |
+| `commerce-stg-network`     | `../../../../../modules/aws/network/**/*.tf`         |
+| `commerce-stg-ecr`         | `../../../../../modules/aws/ecr/**/*.tf`             |
+| `commerce-stg-elb`         | `../../../../../modules/aws/elb/**/*.tf`             |
+| `commerce-stg-compute-ec2` | `../../../../../../modules/aws/compute/ec2/**/*.tf`  |
+| `commerce-stg-compute-ecs` | `../../../../../../modules/aws/compute/ecs/**/*.tf`  |
+| `commerce-stg-cicd`        | `../../../../../modules/aws/cicd/codedeploy/**/*.tf` |
+| `commerce-stg-storage`     | `../../../../../modules/aws/s3/**/*.tf`              |
 
 ## `workflow` 필드
 
