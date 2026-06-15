@@ -61,7 +61,7 @@ resource "aws_instance" "ec2" {
   associate_public_ip_address = each.value.associate_public_ip_address # 퍼블릭 IP 할당 여부 지정(true면 공인 IP 부여 -> 고정 IP 아님)
   disable_api_termination     = each.value.disable_api_termination     # TRUE인 경우 콘솔/API로 삭제 불가
 
-  key_name = data.aws_key_pair.key_pair[each.value.key_pair_name].key_name # SSH key pair 지정
+  key_name = each.value.key_pair_name != null ? data.aws_key_pair.key_pair[each.value.key_pair_name].key_name : null # SSH key pair 지정
 
   vpc_security_group_ids = [
     aws_security_group.ec2_security_group[each.value.security_group_key].id

@@ -59,7 +59,7 @@ variable "ec2_instance" {
     env                         = string
     script_file_name            = optional(string)
     iam_instance_profile        = optional(string)
-    key_pair_name               = string
+    key_pair_name               = optional(string)
     private_ip                  = optional(string)
 
     root_block_device = object({
@@ -83,6 +83,7 @@ variable "ec2_key_pair" {
     name = string
     env  = string
   }))
+  default = {}
 }
 
 ########################################

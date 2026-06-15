@@ -15,13 +15,9 @@ data "aws_ami" "amazon_ami" {
   }
 }
 
-# EC2 key pair
+# EC2 key pair 조회
 data "aws_key_pair" "key_pair" {
   for_each = var.ec2_key_pair
 
   key_name = each.value.name
-
-  tags = merge(var.tags, {
-    Name = "${each.value.name}-${each.value.env}"
-  })
 }
